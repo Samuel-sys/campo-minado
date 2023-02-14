@@ -8,11 +8,18 @@ const rows = columns;
 const minesCount = 5;
 const minesLocation = []; // 2-2, 3-4, 2-1
 function setMines() {
-    minesLocation.push('2-2');
-    minesLocation.push('2-3');
-    minesLocation.push('5-6');
-    minesLocation.push('3-4');
-    minesLocation.push('1-1');
+    
+    let control = minesCount;
+    while(control > 0){
+        let r = Math.floor(Math.random() * rows);
+        let c = Math.floor(Math.random() * columns);
+        let id = r + "-" + c;
+
+        if(!minesLocation.includes(id)){
+            minesLocation.push(id);
+            control--;
+        }
+    }
 }
 
 var tilesClicked = 0;
