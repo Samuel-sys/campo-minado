@@ -1,81 +1,93 @@
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    text-align: center;
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-align: center;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  gap: 1.5em;
 }
 
-#board{
-    border: 10px solid darkgray;
-    background-color: lightgray;
-
-    /*Coloca o item no centro sem ter que definie o width em 100%*/
-    margin: 0 auto;
-    display: grid;
-    width: fit-content;
+h1 {
+  padding: 0;
+  margin: 0;
 }
 
-#board div{
-    width: 48px;
-    height: 48px;
-    border: 3px solid whitesmoke;
-    border-top: 3px solid grey;
-    border-left: 3px solid grey;
+#board {
+  border: 10px solid darkgray;
+  background-color: lightgray;
 
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: default;
+  /*Coloca o item no centro sem ter que definie o width em 100%*/
+  margin: 0 auto;
+  display: grid;
+  width: fit-content;
 }
 
-.tile-clicked{
-    background-color: darkgray;
+#board div {
+  width: 1.5em;
+  height: 1.5em;
+  border: 3px solid whitesmoke;
+  border-top: 3px solid grey;
+  border-left: 3px solid grey;
+
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
 }
 
-.x1::after{
-    content: "1";
-    color: blue;
+.tile-clicked {
+  background-color: darkgray;
 }
 
-.x2::after{
-    content: "2";
-    color: green;
+.x1::after {
+  content: "1";
+  color: blue;
 }
 
-.x3::after{
-    content: "3";
-    color: red;
+.x2::after {
+  content: "2";
+  color: green;
 }
 
-.x4::after{
-    content: "4";
-    color: navy;
+.x3::after {
+  content: "3";
+  color: red;
 }
 
-.x5::after{
-    content: "5";
-    color: brown;
+.x4::after {
+  content: "4";
+  color: navy;
 }
 
-.x6::after{
-    content: "6";
-    color: teal;
+.x5::after {
+  content: "5";
+  color: brown;
 }
 
-.x7::after{
-    content: "7";
-    color: black;
+.x6::after {
+  content: "6";
+  color: teal;
 }
 
-.x8::after{
-    content: "8";
-    color: gray;
+.x7::after {
+  content: "7";
+  color: black;
 }
 
-#flag-button{
-    width: 100px;
-    height: 50px;
-    font-size: 30px;
-    background-color: lightgrey;
-    border: none;
+.x8::after {
+  content: "8";
+  color: gray;
+}
+
+#flag-button {
+  margin: 0 auto;
+  width: 100px;
+  height: 50px;
+  font-size: 30px;
+  background-color: lightgrey;
+  border: none;
 }
