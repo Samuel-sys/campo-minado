@@ -7,6 +7,13 @@ const rows = columns;
 
 const minesCount = 5;
 const minesLocation = []; // 2-2, 3-4, 2-1
+function setMines() {
+    minesLocation.push('2-2');
+    minesLocation.push('2-3');
+    minesLocation.push('5-6');
+    minesLocation.push('3-4');
+    minesLocation.push('1-1');
+}
 
 var tilesClicked = 0;
 var flagEnabled = false;
@@ -32,7 +39,18 @@ function startGame() {
     console.log(board);
 }
 
-function setMines(){
+function revealMines() {
+
+    //Realizamos 2 loops para passar por todas as linhas e colunas e revelar a posição de todas as bombas do jogo
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            let tile = board[r][c];
+            if (minesLocation.includes(tile.id)) {
+                tile.innerHTML = "💣"
+                tile.style = "background-color: red;"
+            }
+        }
+    }
 }
 
 /* --- Eventos --- */
@@ -49,6 +67,14 @@ function clickTile() {
                 tile.innerHTML = "🚩";
                 break;
         }
+    }
+
+    //Verifica se a pessoa selecionou um campo com mina ou não
+    if (minesLocation.includes(tile.id)) {
+        revealMines();
+        gameOver = true;
+        //alert('Perdeu')
+        return;
     }
 }
 
