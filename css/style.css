@@ -32,35 +32,43 @@ body{
     background-color: darkgray;
 }
 
-.x1{
+.x1::after{
+    content: "1";
     color: blue;
 }
 
-.x2{
+.x2::after{
+    content: "2";
     color: green;
 }
 
-.x3{
+.x3::after{
+    content: "3";
     color: red;
 }
 
-.x4{
+.x4::after{
+    content: "4";
     color: navy;
 }
 
-.x5{
+.x5::after{
+    content: "5";
     color: brown;
 }
 
-.x6{
+.x6::after{
+    content: "6";
     color: teal;
 }
 
-.x7{
+.x7::after{
+    content: "7";
     color: black;
 }
 
-.x8{
+.x8::after{
+    content: "8";
     color: gray;
 }
 
