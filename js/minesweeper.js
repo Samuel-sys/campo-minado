@@ -1,31 +1,56 @@
 const $mines_count = document.querySelector('#mines-count');
 const $board = document.querySelector('#board');
+const $timer = document.querySelector('#timer');
 
-var board = [];
-const columns = 8;
-const rows = columns;
-
-const minesCount = 5;
-const minesLocation = []; // 2-2, 3-4, 2-1
-function setMines() {
-    
-    let control = minesCount;
-    while(control > 0){
-        let r = Math.floor(Math.random() * rows);
-        let c = Math.floor(Math.random() * columns);
-        let id = r + "-" + c;
-
-        if(!minesLocation.includes(id)){
-            minesLocation.push(id);
-            control--;
-        }
-    }
-}
 
 var tilesClicked = 0;
 var flagEnabled = false;
 
 var gameOver = false;
+
+var board = [];
+const columns = 8;
+const rows = columns;
+
+const minesCount = 8;
+const minesLocation = []; // 2-2, 3-4, 2-1
+
+let s = 0;
+let m = 0;
+
+const timer =
+    setInterval(function time() {
+
+        if (gameOver) { return `${m}:${s < 9 ? '0' + s : s}`; }
+
+        if (s == 59) {
+            s = 0;
+            m++
+        } else {
+            s++
+        }
+
+        $timer.innerHTML = `${m}:${s < 9 ? '0' + s : s}`
+
+    }, 1000);
+
+
+function setMines() {
+
+    minesLocation.length = 0;
+
+    let control = minesCount;
+    while (control > 0) {
+        let r = Math.floor(Math.random() * rows);
+        let c = Math.floor(Math.random() * columns);
+        let id = r + "-" + c;
+
+        if (!minesLocation.includes(id)) {
+            minesLocation.push(id);
+            control--;
+        }
+    }
+}
 
 function startGame() {
     $mines_count.innerHTML = minesCount;
@@ -106,10 +131,47 @@ function checkMine(r, c) {
     }
 
     if (rows * columns - minesCount - tilesClicked === 0) {
-        alert('Ganhou')
+        renderResultGame('Win')
         gameOver = true;
     }
 
+}
+
+function renderResultGame(status) {
+
+    let screenResetGame = document.createElement('div');
+    screenResetGame.classList.add('reset');
+    screenResetGame.innerHTML =
+        `<div class="reset">
+            <div class="container">
+                <img src="./img/bomb.png" alt="">
+                <h1>${status}!</h1>
+            </div>
+            <button onclick='restartGame()'id="reset">Reiniciar</button>
+        </div>`
+
+    $board.appendChild(screenResetGame)
+}
+
+/* --- Eventos --- */
+
+function restartGame() {
+    //Limpa o contador casa marcadas
+    tilesClicked = 0;
+
+    //Limpa o tabuleiro
+    $board.innerHTML = '';
+    board.length = 0;
+
+    //Ativa o jogo de novo
+    gameOver = false;
+
+    //Zera o timer
+    s = 0;
+    m = 0;
+
+    //Cria o taboleiro inteiro de novo
+    startGame();
 }
 
 function checkTile(r, c) {
@@ -124,12 +186,10 @@ function checkTile(r, c) {
     return 0;
 }
 
-/* --- Eventos --- */
 function clickTile() {
     let tile = this;
 
-    if (tile.classList.contains("tile-clicked") || gameOver) {
-        return;}
+    if (tile.classList.contains("tile-clicked") || gameOver) return;
 
 
     //se a função de marcação com a bandeira estiver ativo ele só adicona ou remove bandeiras do board
@@ -150,7 +210,7 @@ function clickTile() {
     if (minesLocation.includes(tile.id)) {
         revealMines();
         gameOver = true;
-        //alert('Perdeu')
+        renderResultGame('Loser')
         return;
     }
 
@@ -170,6 +230,7 @@ document.querySelector('#flag-button').addEventListener("click", function () {
 })
 
 window.onload = function () {
+
     $board.style = `grid-template-columns: repeat(${columns}, auto);`
     startGame();
 }
