@@ -2,7 +2,6 @@ const $mines_count = document.querySelector('#mines-count');
 const $board = document.querySelector('#board');
 const $timer = document.querySelector('#timer');
 
-
 var tilesClicked = 0;
 var flagEnabled = false;
 
@@ -12,27 +11,25 @@ var board = [];
 const columns = 8;
 const rows = columns;
 
-const minesCount = 8;
+let minesCount = 5;
 const minesLocation = []; // 2-2, 3-4, 2-1
 
 let s = 0;
 let m = 0;
+const timer = setInterval(function time() {
 
-const timer =
-    setInterval(function time() {
+    if (gameOver) { return `${m}:${s <= 9 ? '0' + s : s}`; }
 
-        if (gameOver) { return `${m}:${s < 9 ? '0' + s : s}`; }
+    if (s == 59) {
+        s = 0;
+        m++
+    } else {
+        s++
+    }
 
-        if (s == 59) {
-            s = 0;
-            m++
-        } else {
-            s++
-        }
+    $timer.innerHTML = `${m}:${s <= 9 ? '0' + s : s}`
 
-        $timer.innerHTML = `${m}:${s < 9 ? '0' + s : s}`
-
-    }, 1000);
+}, 1000);
 
 
 function setMines() {
@@ -93,6 +90,8 @@ function checkMine(r, c) {
     //Se o campo onde que está sendo feita a verificação já tiver sido clicado ele encerra a função
     if (board[r][c].classList.contains("tile-clicked")) return;
 
+    //Caso tenha um marcador (bandeira) ele vai remove a bandeira antes de sobrescrever
+    board[r][c].innerHTML = '';
     board[r][c].classList.add("tile-clicked");
     tilesClicked++;
 
@@ -153,8 +152,6 @@ function renderResultGame(status) {
     $board.appendChild(screenResetGame)
 }
 
-/* --- Eventos --- */
-
 function restartGame() {
     //Limpa o contador casa marcadas
     tilesClicked = 0;
@@ -189,7 +186,11 @@ function checkTile(r, c) {
 function clickTile() {
     let tile = this;
 
-    if (tile.classList.contains("tile-clicked") || gameOver) return;
+    if (tile.classList.contains("tile-clicked")) return;
+    if (gameOver) {
+
+        renderResultGame()
+    }
 
 
     //se a função de marcação com a bandeira estiver ativo ele só adicona ou remove bandeiras do board
@@ -226,11 +227,34 @@ document.querySelector('#flag-button').addEventListener("click", function () {
     //estamos invertendo o valor do atributo que informa se o modo de marcação está ativo ou desativo
     flagEnabled = !flagEnabled;
     //se ele tiver ativo ele deixar com a cor mais escura se desativo mais claro
-    this.style = flagEnabled ? "background-color: darkgray;" : "background-color: lightgray;"
+    this.classList.toggle('active');
 })
+
+//Botão para remover bombas 
+document.querySelector('#mais').addEventListener('click', () => {
+    minesCount++;
+
+    if(minesCount >= columns * 2){
+        alert(`você não pode ter mais bombas do que ${columns * 2} no jogo`)
+        minesCount= columns * 2;
+    }
+
+    restartGame();
+});
+
+//Botão de adicionar bombas
+document.querySelector('#menos').addEventListener('click', () => {
+    minesCount = minesCount > 3 ? minesCount - 1 : minesCount;
+    if (minesCount == 3 || minesCount < 3) {
+        alert('O jogo exige que tenha no minimo 3 bombas no campo minado');
+        minesCount = 3;
+    }
+    restartGame()
+});
 
 window.onload = function () {
 
-    $board.style = `grid-template-columns: repeat(${columns}, auto);`
     startGame();
+    $board.style = `grid-template-columns: repeat(${columns}, auto);`
+    //startGame();
 }

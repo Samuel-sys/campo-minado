@@ -15,6 +15,19 @@ body {
   margin: 0;
 }
 
+input[type="button"]{
+  width: 2em;
+  height: 2em;
+  text-align: center;
+}
+
+h1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
 #board {
   border: 10px solid darkgray;
   background-color: lightgray;
@@ -132,5 +145,10 @@ body {
   height: 50px;
   font-size: 30px;
   background-color: lightgrey;
-  border: none;
+  box-shadow: -2px 3px 0 #222, -4px 6px #000;
+  border: solid 2px black;
+}
+
+#flag-button.active{
+  box-shadow: inset -4px 4px 0 #222;
 }
